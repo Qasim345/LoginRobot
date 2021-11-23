@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=7,8,edge" />
+  <title>Login with robot face | Qasim Sarwari</title>
+  <style type="text/css" media="all">
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      text-decoration: none;
+      outline: none;
+      border: none;
+      font-family: Arial;
+    }
+@font-face {
+      font-family: 'material-icons';
+      src: url(material-icons.ttf);
+    }
+    body {
+      height: 100vh;
+      background: #eef3f9;
+      display: grid;
+      place-items: center;
+    }
+    /* Created by Qasim Sarwari */
+    .form {
+      width: 320px;
+      background: #fff;
+      padding: 30px;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      text-align: center;
+    }
+    .form .face {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 1px solid #ddd;
+      margin: 10px auto;
+      margin-bottom: 30px;
+      transition: all 0.5s;
+      background: #eef3f9;
+    }
+    .form .face .eyes {
+      width: 100%;
+      padding: 20px;
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-around;
+    }
+    .face .eyes .eye {
+      position: relative;
+      width: 30px;
+      height: 30px;
+      background: #333;
+      border-radius: 50%;
+      overflow: hidden;
+      transition: 0.5s;
+    }
+    .face .eyes .eye div {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%,-50%);
+      width: 10px;
+      height: 10px;
+      background: #c3caaf;
+      border-radius: 50%;
+      transition: 0.5s;
+    }
+    .eyes #eye1 div.act,.eyes #eye2 div.act {
+      left: 5px;
+      bottom: 5px;
+      transform: translate(0);
+    }
+    .eyes #eye1.act, .eyes #eye2.act {
+      height: 10px;
+    }
+    .form .face .mouth {
+      width: 60px;
+      height: 15px;
+      margin: 0 auto;
+      margin-top: 15px;
+      border-radius: 0 0 100% 100%;
+      background: #333;
+      border: 3px solid #333;
+      transition: 0.5s;
+    }
+    .form .input {
+      position: relative;
+      margin-top: 35px;
+    }
+    .form .input strong{
+      position: absolute;
+      top: -25px;
+      left: 0;
+      color: #7696be;
+    }
+    .form .input input {
+      width: 100%;
+      height: 50px;
+      border: 2px solid #bbc9da;
+      border-radius: 3px;
+      padding-left: 20px;
+      padding-top: 10px;
+      font-weight: bold;
+    }
+    .form .input input:focus{
+      border-color: #7696be;
+      transition: 0.3s;
+    }
+    .form .input #password{
+      padding-top: 0;
+    }
+    .input #password::placeholder{
+      color: #adadad;
+      font-weight: 500;
+      font-size: 16px;
+    }
+    .form .input label {
+      position: absolute;
+      top: 15px;
+      left: 20px;
+      color: #999fa6;
+      pointer-events: none;
+      transition: 0.3s;
+    }
+    .form .input #show {
+      font-family: 'material-icons';
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      width: 48px;
+      height: 46px;
+      text-align: center;
+      line-height: 46px;
+      background: #fff;
+      font-size: 25px;
+      color: #bbc9da;
+    }
+    .form button {
+      width: 100%;
+      height: 45px;
+      background: #1876f3;
+      color: #fff;
+      font-weight: bold;
+      border-radius: 3px;
+      box-shadow: 0 2px 3px rgba(0,0,0,0.2);
+      font-size: 18px;
+      margin: 10px 0;
+      margin-bottom: 15px;
+    }
+    .form input:focus ~ label, .form input:valid ~ label {
+      transform: translateY(-10px);
+      left: 8px;
+      font-size: 10px;
+      color: #7696be;
+    }
+    .form a {
+      font-weight: bold;
+      color: #7696be;
+    }
+  </style>
+</head>
+<body>
+  <form class="form" action="RobotLogin.html" onsubmit="return valid()">
+    <!-- face -->
+    <div class="face">
+      <div class="eyes">
+        <div class="eye" id="eye1">
+          <div></div>
+        </div>
+        <div class="eye" id="eye2">
+          <div></div>
+        </div>
+      </div>
+      <div class="mouth"></div>
+    </div>
+    <!-- // face -->
+    <div class="input">
+      <strong>Email</strong>
+      <input type="text" id="email" required/>
+      <label>email@domain.com</label>
+    </div>
+    <div class="input">
+      <strong>Password</strong>
+      <input type="password" placeholder="Password" id="password"/>
+      <span id="show">visibility_off</span>
+    </div>
+    <button type="submit">Log in</button>
+    <a href="#">Forgot password?</a>
+  </form>
+
+  <script src="jquery.min.js" type="text/javascript"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="text/javascript">
+  // Created by Qasim Sarwari
+    $("#email").focus(()=> {
+      $("#eye1 div, #eye2 div").addClass("act");
+      $(".mouth").css({
+        "background": "none", "border-radius": "100%"
+      });
+    })
+    $("#email").on("mouseout", ()=> {
+      $("#eye1 div, #eye2 div").removeClass("act");
+      $(".mouth").css({
+        "background": "#333", "border-radius": "0 0 100% 100%"
+      });
+    });
+    $("#password").focus(()=> {
+      $("#eye1,#eye2").addClass("act")
+      $(".mouth").css({
+        "background": "none", "border-radius": "100% 100% 0 0","height": "5px"
+      });
+    });
+    $("#password").on("mouseout", ()=> {
+      $("#eye1,#eye2").removeClass("act")
+      $(".mouth").css({
+        "background": "#333", "border-radius": "0 0 100% 100%","height":"15px"
+      });
+    });
+    $("button").click(()=> {
+      $(".face").css("transform", "rotate(360deg)");
+    });
+    $("#show").click(()=> {
+      var pass = document.getElementById("password");
+      if (pass.type == "password") {
+        password.type = "text";
+        $("#show").html("visibility").css("color", "#333");
+      } else {
+        pass.type = "password";
+        $("#show").html("visibility_off").css("color", "#bbc9da");
+      }
+    });
+    function valid(){
+      if($("#password").val() == ""){
+        navigator.vibrate(300);
+        $("#password").focus();
+        return false
+      }else{
+        return true
+        navigator.vibrate(0);
+      }
+    }
+  </script>
+</body>
+</html>
